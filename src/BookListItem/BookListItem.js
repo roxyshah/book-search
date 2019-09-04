@@ -4,45 +4,29 @@ A lookup list of the file types corresponding to the icons is first created to
 make the mapping of fileType to icon faster.*/
 
 import React, { Component } from 'react';
-import './ListItem.css';
-import ControlBar from '../ControlBar/ControlBar';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-    faFileImage,
-    faFileAudio,
-    faFileAlt,
-    faFileVideo
-} from '@fortawesome/free-solid-svg-icons';
+import './BookListItem.css';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+// import {
+//     faFileImage,
+//     faFileAudio,
+//     faFileAlt,
+//     faFileVideo
+// } from '@fortawesome/free-solid-svg-icons';
 
-class ListItem extends Component {
+class BookListItem extends Component {
     render() {
-        const icons = {
-            "jpg": faFileImage,
-            "mov": faFileVideo,
-            "txt": faFileAlt,
-            "mp3": faFileAudio
-        }
-        //lots happening here
         return (
-            <div className="ListItem">
-                <div className="ListItem--icon">
-                    <div className="ListItem--circle">
-                        <FontAwesomeIcon icon={icons[this.props.fileType] || faFileAlt }/>
-                    </div>
-                </div>
-                <div className="ListItem--content">
-                    <div className="ListItem--heading">
-                        <div className="ListItem--title">{this.props.name}</div>
-                        <div className="ListItem--size">{this.props.size}</div>
-                    </div>
-                    <div className="ListItem--actions">
-                        <div className="ListItem--status">{this.props.status}</div>
-                        <ControlBar />
-                    </div>
+            <div className="BookListItem">
+                <div className="BookListItem_content">
+                    <div className="BookListItem_title">{this.props.volumeInfo.title}</div>
+                    <div className="BookListItem_author">{this.props.volumeInfo.authors}</div>
+                    <div className="BookListItem_price">{this.props.saleInfo.listPrice ? this.props.saleInfo.listPrice.amount : "N/A"}</div>
+                    <div className="BookListItem_description">{this.props.volumeInfo.description}</div>
+                    <div className="BookListItem_image"><img src={this.props.volumeInfo.imageLinks.thumbnail} alt="images"></img></div>
                 </div>
             </div>
         );
     }
 }
 
-export default ListItem;
+export default BookListItem;

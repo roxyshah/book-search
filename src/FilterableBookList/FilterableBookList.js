@@ -3,28 +3,32 @@ and displaying a ListItem for each file in the array. For this, the map method
 is used to iterate the array and output a ListItem component for each file*/
 
 import React, { Component } from 'react';
-import './FilterableList.css';
-import ListItem from '../ListItem/ListItem';
+import './FilterableBookList.css';
+import BookListItem from '../BookListItem/BookListItem';
 
-class FilterableList extends Component {
+class FilterableBookList extends Component {
     render() {
-        const { searchTerm, filterOption } = this.props;
+        // const { searchTerm, filterOption } = this.props;
         //so much going on here?
-        const list = this.props.files
-            .filter(file => file.name.includes(searchTerm)
-                && (filterOption === 'All' || file.status === filterOption))
-            .map((file, key) => <ListItem {...file} key={key} />);
+        /* .filter(file => file.name.includes(searchTerm)
+                 && (filterOption === 'All' || file.status === filterOption))*/
+                console.log(this.props.books);
+                 const list = this.props.books
+            .map((book, key) => <BookListItem 
+                volumeInfo={book.volumeInfo}
+                saleInfo={book.saleInfo} 
+                key={key}/>);
         return (
-            <div className="FilterableList">
+            <div className="FilterableBookList">
                 {list}
             </div>
         );
     }
 }
 
-FilterableList.defaultProps = {
-    files: []
+FilterableBookList.defaultProps = {
+    books: []
 };
 
-export default FilterableList;
+export default FilterableBookList;
 
