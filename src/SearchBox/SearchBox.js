@@ -1,17 +1,21 @@
 import React, { Component } from 'react';
 import './SearchBox.css';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
 
 class SearchBox extends Component {
     render () {
         return (
             <div className="SearchBox">
-                <FontAwesomeIcon icon={faSearch}/>
+                <span>Search: </span>
                 <input 
                     placeholder="Search-term" 
                     value={this.props.searchTerm}
-                    onChange={e => this.props.handleUpdate(e.target.value)}/>
+                    onChange={e => this.props.updateSearchTerm(e.target.value)}/>
+                
+                <input 
+                    type="submit" 
+                    id="submit" 
+                    value="Search"
+                    onClick={this.props.handleUpdate}/>
             </div>
         );
     }

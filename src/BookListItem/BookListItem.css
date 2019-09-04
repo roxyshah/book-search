@@ -1,0 +1,8 @@
+.BookListItem {
+    display: flex;
+    padding: 10px 10px;
+}
+
+.BookListItem_image {
+    margin-right: 10px;
+}

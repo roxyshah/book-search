@@ -8,16 +8,22 @@ class SearchBar extends Component {
         return (
             <div className="SearchBar">
                 <div className="SearchBar--heading">
-                    <h1>File Uploader</h1>
+                    <h1>Google Book Search</h1>
                 </div>
                 <div className="SearchBar--controls">
                     <SearchBox 
                         searchTerm={ this.props.searchTerm }
-                        handleUpdate={ this.props.handleUpdate}/>
+                        handleUpdate={ this.props.handleUpdate}
+                        printType={this.props.printType}
+                        bookType={this.props.bookType}
+                        updateSearchTerm={this.props.updateSearchTerm} />
+                    
                     <FilterOptions 
                         filterOption={ this.props.FilterOptions }
-                        handleFilterChange={ this.props.handleFilterChange }/>
+                        handlePrintTypeChange={ this.props.handlePrintTypeChange }
+                        handleBookTypeChange={ this.props.handleBookTypeChange }/>
                 </div>
+                
             </div>
         );
     }

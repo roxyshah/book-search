@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
 
+import SearchBar from './SearchBar/SearchBar';
 import FilterableBookList from './FilterableBookList/FilterableBookList';
-
-// import AddBookmark from './AddBookmark/AddBookmark';
-// import BookmarkApp from './BookmarkApp/BookmarkApp';
-
-/*apiKey = 
-AIzaSyCwUNMT_BV7-942SxZyr8ESdePSPNayqlk*/
 
 
 class App extends Component {
@@ -16,20 +11,28 @@ class App extends Component {
     super(props);
     this.state = {
       books: [],
-      searchTerm: 'Outsiders',
-      filterOption: 'All',
+      searchTerm: '',
+      printType:"all",
+      bookType:"no-filter",
       showAddForm: false
     };
   }
+
 //if this is true
 //do this
 //else do this (return empty string)
 //adding in api key  
-  componentDidMount() {
+  fetchBooks() {
     const url = 'https://www.googleapis.com/books/v1/volumes?'+
       (this.state.searchTerm 
         ? 'q=' + this.state.searchTerm + '&'
         : '')
+      + (this.state.printType !== "all"
+        ? "printType=" + this.state.printType + '&'
+        : '')
+      + (this.state.bookType !== "no-filter"
+          ? "filter=" + this.state.bookType + '&'
+          : '')
         + 'key=AIzaSyCwUNMT_BV7-942SxZyr8ESdePSPNayqlk';
     const options = {
       method: 'GET',
@@ -39,10 +42,9 @@ class App extends Component {
         "Content-Type": "application/json"
       }
     };
-    console.log(url);
+
     fetch(url, options)
       .then(res => {
-        console.log(res);
         if(!res.ok) {
           throw new Error('Something went wrong, please try again later.');
         }
@@ -50,7 +52,6 @@ class App extends Component {
       })
       .then(res => res.json())
       .then(data => {
-        console.log(data);
         this.setState({
           books: data.items,
           error: null
@@ -67,31 +68,39 @@ class App extends Component {
   updateSearchTerm(term) {
     this.setState({
       searchTerm: term
-    })
-  }
-
-  updateFilterOption(option) {
-    this.setState({
-      filterOption: option
-    })
-  }
-
-  setShowAddForm(show) {
-    this.setState({
-      showAddForm: show
     });
+  }
+  
+
+  updatePrintType(option) {
+    this.setState({
+      printType: option
+    });
+    this.fetchBooks();
+  }
+
+  updateBookType(option) {
+    this.setState({
+      bookType: option
+    });
+    this.fetchBooks();
   }
 
   render() {
-    // const page = this.state.showAddForm
-    //       ? <AddBookmark 
-    //              showForm={show => this.setShowAddForm(show)} 
-    //              handleAdd={bookmark => this.addBookmark(bookmark)}/>
-    //       : <BookmarkApp bookmarks={this.state.bookmarks} showForm={show => this.setShowAddForm(show)}/>; 
-
     return (
       <div className="App">
-        <FilterableBookList books={this.state.books} />
+        <SearchBar
+          searchTerm={this.state.searchTerm}
+          printType={this.state.printType}
+          bookType={this.state.bookType}
+          handleUpdate={() => this.fetchBooks()}
+          handlePrintTypeChange={option => this.updatePrintType(option)}
+          handleBookTypeChange={option => this.updateBookType(option)}
+          updateSearchTerm={term => this.updateSearchTerm(term)}/>
+        <FilterableBookList 
+          books={this.state.books}
+          searchTerm={this.state.searchTerm}
+          filterOption={this.state.filterOptions}/>
       </div>
     );
   }
